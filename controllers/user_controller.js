@@ -2,13 +2,15 @@ const User = require('../Schemas/user_model')
 const bcrypt = require('bcrypt');
 
 async function signup (req,res){
-    const { username, email, password } = req.body;
+
+  console.log(req.body);
+  const { username, email, password } = req.body;
 
   try {
     // Validate request
-    if (!username || !email || !password) {
-      return res.status(400).json({ message: 'Please provide all fields' });
-    }
+    // if (!username || !email || !password) {
+    //   return res.status(400).json({ message: 'Please provide all fields' });
+    // }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -35,7 +37,9 @@ async function signup (req,res){
 }
 
 async function signin(req,res){
-    const { email, password } = req.body;
+  console.log(req.body);
+
+  const { email, password } = req.body;
 
   try {
     // Validate request
@@ -63,18 +67,20 @@ async function signin(req,res){
 }
 
 async function get_user_id(username){
-    try{
-        const user = await User.findOne({username: username});
-        if (!user){
-            console.log("user not found")
-            return null
-        }
-        console.log(user)
-        console.log("userID : " , user._id)
-        return user._id
+  console.log(req.body);
+  
+  try{
+    const user = await User.findOne({username: username});
+    if (!user){
+      console.log("user not found")
+        return null
+      }
+      console.log(user)
+      console.log("userID : " , user._id)
+      return user._id
     }
     catch(error) {
-        console.error(error);
+      console.error(error);
     }
     
 }
