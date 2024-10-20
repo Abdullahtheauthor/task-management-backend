@@ -1,16 +1,16 @@
 const User = require('../Schemas/user_model');
 const bcrypt = require('bcrypt');
 
-// User sign-up controller
-async function signup(req, res) {
-    const { username, email, password } = req.body;
+async function signup (req,res){
 
-    try {
-        // Validate request
-        if (!username || !email || !password) {
-            return res.status(400).json({ message: 'Please provide all fields' });
-        }
+  console.log(req.body);
+  const { username, email, password } = req.body;
 
+  try {
+   // Validate request
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: 'Please provide all fields' });
+    }
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -34,10 +34,12 @@ async function signup(req, res) {
         res.status(500).json({ message: 'Server error' });
     }
 }
+      
+=======
+async function signin(req,res){
+  console.log(req.body);
 
-// User sign-in controller
-async function signin(req, res) {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
     try {
         // Validate request
@@ -50,7 +52,6 @@ async function signin(req, res) {
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
-
         // Compare hashed passwords
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
@@ -67,4 +68,5 @@ async function signin(req, res) {
 module.exports = {
     signin,
     signup,
-};
+    get_user_id
+}

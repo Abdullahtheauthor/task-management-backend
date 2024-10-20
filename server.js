@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-
+const tasks_routes = require('./routes/tasks_routes')
+const board_routes = require('./routes/board_routes')
+const cors = require('cors')
 // Load environment variables from .env file
 dotenv.config();
 
@@ -14,7 +16,6 @@ const PORT = process.env.PORT || 5000;
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cors());  // Enable CORS
-
 // MongoDB Connection
 mongoose.connect(process.env.MongoDB_URL, {
     useNewUrlParser: true,
@@ -26,6 +27,8 @@ mongoose.connect(process.env.MongoDB_URL, {
 // Use API routes with prefix /api/auth
 app.use('/api/auth', authRoutes);
 
+app.use('/api/tasks', tasks_routes)
+app.use('/api/boards', board_routes)
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
