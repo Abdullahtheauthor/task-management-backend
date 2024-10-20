@@ -2,13 +2,15 @@ const User = require('../Schemas/user_model')
 const bcrypt = require('bcrypt');
 
 async function signup (req,res){
-    const { username, email, password } = req.body;
+
+  console.log(req.body);
+  const { username, email, password } = req.body;
 
   try {
     // Validate request
-    if (!username || !email || !password) {
-      return res.status(400).json({ message: 'Please provide all fields' });
-    }
+    // if (!username || !email || !password) {
+    //   return res.status(400).json({ message: 'Please provide all fields' });
+    // }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -35,7 +37,9 @@ async function signup (req,res){
 }
 
 async function signin(req,res){
-    const { email, password } = req.body;
+  console.log(req.body);
+
+  const { email, password } = req.body;
 
   try {
     // Validate request
@@ -63,18 +67,20 @@ async function signin(req,res){
 }
 
 async function get_user_id(username){
-    try{
-        const user = await User.findOne({username: username});
-        if (!user){
-            console.log("user not found")
-            return null
-        }
-        console.log(user)
-        console.log("userID : " , user._id)
-        return user._id
+  console.log(req.body);
+  
+  try{
+    const user = await User.findOne({username: username});
+    if (!user){
+      console.log("user not found")
+        return null
+      }
+      console.log(user)
+      console.log("userID : " , user._id)
+      return user._id
     }
     catch(error) {
-        console.error(error);
+      console.error(error);
     }
     
 }
@@ -84,35 +90,3 @@ module.exports = {
     signup,
     get_user_id
 }
-
-
-// async function create_user (req,res){
-//     try{
-//         const data = req.body;
-        
-//         let user = await user_model.findOne({username : data.username})
-//         console.log(user)
-
-//         if (user) res.status(409).json({message: "user already exist"})
-        
-//         await user_model.create(data);
-//         res.status(201).json({message:'user created successfully'});
-//     }catch(error){
-//         res.status(500).json({message:error})
-//     }
-// }
-
-// async function login_user(req , res){
-//     try{
-//         const data = req.body
-//         let user = await user_model.findOne({username : data.username})
-        
-//         if (!user || data.password !== user.password){
-//             res.status(400).json({message: "invalid credentinals"})
-//         } 
-
-//         res.status(200).json({message:'user loged in successfully' , username : user.username});
-//     }catch(error){
-//         res.status(500).json({message:error})
-//     }
-// }

@@ -1,17 +1,22 @@
 const mongoose = require('mongoose')
 
 const TaskSchema = new mongoose.Schema({
-    Title : {type:String , required : true},
-    Description : {type:String},
-    Status:{type :String},
-    Estimate : {type : String , required : true},
+    title : {type:String , required : true},
+    description : {type:String},
+    status:{type :String},
+    estimate : {type : String , required : true},
+    tags:[{type :String}],
     createdBy : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'user'
     },
-    Assigne :{
+    assigne :{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'user'
+    },
+    board : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'board'
     }
 })
 
