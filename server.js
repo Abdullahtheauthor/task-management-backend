@@ -5,7 +5,6 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const tasks_routes = require('./routes/tasks_routes')
 const board_routes = require('./routes/board_routes')
-const cors = require('cors')
 // Load environment variables from .env file
 dotenv.config();
 

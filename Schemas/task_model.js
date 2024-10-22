@@ -6,11 +6,7 @@ const TaskSchema = new mongoose.Schema({
     status:{type :String},
     estimate : {type : String , required : true},
     tags:[{type :String}],
-    createdBy : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'user'
-    },
-    assigne :{
+    assignee :{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'user'
     },
