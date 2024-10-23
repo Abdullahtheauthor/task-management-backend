@@ -35,7 +35,7 @@ async function signup (req,res){
     }
 }
       
-=======
+
 async function signin(req,res){
   console.log(req.body);
 
@@ -68,5 +68,4 @@ async function signin(req,res){
 module.exports = {
     signin,
     signup,
-    get_user_id
 }

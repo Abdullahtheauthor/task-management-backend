@@ -5,7 +5,7 @@ async function create_task (req , res) {
 
     try{
         const data = req.body;
-        await task_model.create(data)
+        await task_model.create(data.newTask)
         res.status(201).json({message:"task created successfuly"})
     }
     catch(error){
@@ -17,25 +17,52 @@ async function get_all_tasks(req,res){
     console.log(req.body);
 
     try{
-        tasks = await task_model.find();
+        tasks = await task_model.aggregate([
+            {
+                $lookup:{
+                    from:"users",
+                    localField:"assignee",
+                    foreignField:"_id",
+                    as:"assignee"
+                },
+            },
+            {
+                $unwind: {
+                    path: "$assignee",
+                    preserveNullAndEmptyArrays: true // Keep tasks without assignees
+                }
+            },
+            {
+                $project:{
+                    "_id":1,
+                    "title":1,
+                    "status":1,
+                    "estimate":1,
+                    "tags":1,
+                    "assignee":"$assignee.username" 
+                }
+            }
+        ]);
         res.status(200).json({tasks:tasks})
     }catch(error){
+        console.log(error)
         res.status(500).json({message:error})
     }
 }
 
 async function update_task(req,res){
 
-    console.log(req.body)
+    console.log(req.body.editedTask)
     try{
-        const {task_id, title , tags, estimate , assigne} = req.body
+        const {_id, title , status,tags, estimate , assigne} = req.body.editedTask
         await task_model.updateOne(
-            {_id : task_id},
+            {_id : _id},
             {
                 $set:{
                     title : title,
                     tags : tags,
-                    estimage:estimate,
+                    status:status,
+                    estimate:estimate,
                     assigne : assigne
                 }
             }
@@ -44,6 +71,7 @@ async function update_task(req,res){
         res.status(201).json({message:"task updated"})
     }
     catch(error){
+        console.log(error)
         res.status(500).json({message:error})
     }
 
